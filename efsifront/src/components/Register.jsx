@@ -19,10 +19,14 @@ function Register({ onRegister }) {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/register', formData);
-      setMessage(response.data);
-      onRegister(formData.username); // Pasar el nombre de usuario al padre
+      if (response.data.includes('Error')) {
+        setMessage(response.data);
+      } else {
+        setMessage(response.data);
+        onRegister(formData.username); // Pasar el nombre de usuario al padre
+      }
     } catch (error) {
-      setMessage(error.response ? error.response.data : "Error en el registro");
+      setMessage(error.response ? error.response.data : 'Error en el registro');
     }
   };
 
