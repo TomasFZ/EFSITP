@@ -4,6 +4,7 @@ import axios from 'axios';
 function Login({ onLogin }) {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -12,18 +13,25 @@ function Login({ onLogin }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setMessage('');
+
     try {
-      const response = await axios.post('http://localhost:5000/login', formData);
-      const token = response.data.token;
-      if (token) {
-        localStorage.setItem('token', token); // Guardar token en el localStorage
+      const response = await axios.post('http://localhost:3001/api/user/login', formData);
+      
+      if (response.data && response.data.includes('Token:')) {
+        const token = response.data.split('Token: ')[1];
+        localStorage.setItem('token', token);
         setMessage('Login exitoso');
-        onLogin(formData.username); // Actualizar el nombre de usuario en el header
+        onLogin(formData.username);
       } else {
-        setMessage('Error en el login');
+        setMessage('Error en el login. Por favor, verifica tus credenciales.');
       }
     } catch (error) {
-      setMessage(error.response ? error.response.data : 'Error en el login');
+      console.error('Error durante el login:', error);
+      setMessage(error.response?.data || 'Error en el login. Por favor, intenta de nuevo.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,9 +55,11 @@ function Login({ onLogin }) {
           onChange={handleChange}
           required
         />
-        <button type="submit">Iniciar Sesión</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+        </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className={message.includes('exitoso') ? 'success' : 'error'}>{message}</p>}
     </div>
   );
 }
