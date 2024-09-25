@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function Login({ onLogin }) {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      onLogin(storedUsername);
+    }
+  }, [onLogin]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +29,7 @@ function Login({ onLogin }) {
       if (response.data && response.data.includes('Token:')) {
         const token = response.data.split('Token: ')[1];
         localStorage.setItem('token', token);
+        localStorage.setItem('username', formData.username);
         setMessage('Login exitoso');
         onLogin(formData.username);
       } else {

@@ -9,6 +9,7 @@ function Register({ onRegister }) {
     password: ''
   });
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,16 +18,22 @@ function Register({ onRegister }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setMessage('');
+
     try {
-      const response = await axios.post('http://localhost:5000/register', formData);
+      const response = await axios.post('http://localhost:3001/api/user/register', formData);
       if (response.data.includes('Error')) {
         setMessage(response.data);
       } else {
-        setMessage(response.data);
-        onRegister(formData.username); // Pasar el nombre de usuario al padre
+        setMessage('Registro exitoso');
+        localStorage.setItem('username', formData.username);
+        onRegister(formData.username);
       }
     } catch (error) {
       setMessage(error.response ? error.response.data : 'Error en el registro');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -66,9 +73,11 @@ function Register({ onRegister }) {
           onChange={handleChange}
           required
         />
-        <button type="submit">Registrar</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'Registrando...' : 'Registrar'}
+        </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className={message.includes('exitoso') ? 'success' : 'error'}>{message}</p>}
     </div>
   );
 }

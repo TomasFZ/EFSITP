@@ -11,6 +11,7 @@ function Navbar({ imagen, user }) {
         </div>
         <ul>
           <li><Link to="/">Home</Link></li>
+          <li><Link to="/logout">Cerrar Sesión</Link></li>
           {user ? (
             <li className="user-info">
               <span>{user}</span> {/* Mostrar el nombre de usuario */}
