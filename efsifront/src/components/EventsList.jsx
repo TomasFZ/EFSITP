@@ -8,12 +8,13 @@ function EventsList() {
     const fetchEvents = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('http://localhost:5000/events', {
+        const response = await axios.get('http://localhost:3001/api/event', {
           headers: {
             Authorization: `Bearer ${token}`, // Usar el token almacenado
           },
         });
-        setEvents(response.data);
+        console.log(response.data.collection)
+        setEvents(response.data.collection);
       } catch (error) {
         console.error("Error fetching events:", error);
       }
