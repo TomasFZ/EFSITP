@@ -13,9 +13,11 @@ function Logout({ onLogout }) {
 
   return (
     <div className="logout-page">
-      <h2>Cerrar Sesión</h2>
-      <p>¿Estás seguro de que quieres cerrar sesión?</p>
-      <button onClick={handleLogout}>Cerrar Sesión</button>
+      <div className="logout-container">
+        <h2>Cerrar Sesión</h2>
+        <p>¿Estás seguro de que quieres cerrar sesión?</p>
+        <button className="logout-button" onClick={handleLogout}>Cerrar Sesión</button>
+      </div>
     </div>
   );
 }

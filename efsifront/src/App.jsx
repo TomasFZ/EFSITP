@@ -3,7 +3,8 @@ import Navbar from './components/navbar';
 import Register from './components/Register';
 import Login from './components/Login';
 import Logout from './components/Logout';
-import EventsList from './components/EventsList';
+import Home from './components/Home';
+import Footer from './components/Footer';
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
@@ -33,29 +34,23 @@ function App() {
 
   return (
     <Router>
-      <Navbar
-        imagen="Portfolio-EFSI/src/vendor/imagen1.png"
-        user={username}
-        className="navbar"
-      />
-
-      <Routes>
-        <Route path="/login" element={username ? <Navigate to="/events" /> : <Login onLogin={handleLogin} />} />
-        <Route path="/register" element={username ? <Navigate to="/events" /> : <Register onRegister={handleRegister} />} />
-        <Route path="/events" element={username ? <EventsList /> : <Navigate to="/login" />} />
-        <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
-        <Route path="/" element={<Welcome />} />
-      </Routes>
+      <div className="app-container">
+        <Navbar
+          imagen="Portfolio-EFSI/src/vendor/imagen1.png"
+          user={username}
+          className="navbar"
+        />
+        <main className="main-content">
+          <Routes>
+            <Route path="/login" element={username ? <Navigate to="/" /> : <Login onLogin={handleLogin} />} />
+            <Route path="/register" element={username ? <Navigate to="/" /> : <Register onRegister={handleRegister} />} />
+            <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
+            <Route path="/" element={<Home username={username} />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
-  );
-}
-
-function Welcome() {
-  return (
-    <div className="welcome-message">
-      <h2>¡Bienvenido a Eventos.com!</h2>
-      <p>Aquí podrás encontrar y registrarte en los próximos eventos.</p>
-    </div>
   );
 }
 

@@ -3,6 +3,7 @@ body {
   margin: 0;
   font-family: 'Arial', sans-serif;
   background-color: #b6b285; /* Fondo de la página */
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); /* Fondo degradado */
 }
 
 /* Navbar */
@@ -14,6 +15,7 @@ body {
   align-items: center;
   font-weight: bold; /* Fuente negrita */
   color: #fff; /* Texto blanco */
+  height: 60px; /* Altura fija para el navbar */
 }
 
 .navbar .logo {
@@ -32,10 +34,15 @@ body {
   display: flex;
   margin: 0;
   padding: 0;
+  height: 100%;
+  align-items: center;
 }
 
 .navbar ul li {
   margin: 0 1rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .navbar ul li a {
@@ -43,6 +50,16 @@ body {
   text-decoration: none;
   font-weight: bold;
 }
+
+.navbar .logo a {
+  color: #fff; /* Cambia el color a blanco */
+  text-decoration: none; /* Quita el subrayado */
+}
+
+.navbar .logo a:hover {
+  text-decoration: none; /* Asegúrate de que tampoco se subraye al pasar el cursor */
+}
+
 
 .navbar ul li a:hover {
   text-decoration: underline; /* Subrayado al pasar el cursor */
@@ -53,6 +70,9 @@ body {
   background-color: #444; /* Fondo más oscuro para el nombre de usuario */
   padding: 0.5rem 1rem;
   border-radius: 5px;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .user-info span {
@@ -107,7 +127,7 @@ body {
 p {
   text-align: center;
   font-weight: bold;
-  color: #ff0000; /* Mensajes de error en rojo */
+  color: #ffffff; /* Mensajes de error en rojo */
 }
 
 .events-list {
@@ -132,4 +152,129 @@ p {
 .events-list li {
   padding: 0.75rem;
   border-bottom: 1px solid #ccc;
+}
+
+.logout-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #b6b285; /* Fondo que coincide con el body */
+}
+
+.logout-container {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.logout-container h2 {
+  color: #000;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.logout-container p {
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.logout-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #333;
+}
+
+/* Ajustes para el layout general */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* Estilos para el Footer */
+.site-footer {
+  background-color: #000;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0.5rem 0;
+}
+
+/* Estilo para el mensaje de bienvenida */
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+  background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+}
+
+.welcome-message {
+  background-color: #fff;
+  padding: 2rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  color: #333;
+}
+
+/* Estilo del título */
+.welcome-message h2 {
+  font-size: 2.5rem; /* Tamaño de letra más grande */
+  color: #333;
+  font-family: 'Montserrat', sans-serif; /* Cambia la fuente para darle un toque más moderno */
+  margin-bottom: 1rem;
+  letter-spacing: 1.5px; /* Espaciado entre letras */
+  text-transform: uppercase;
+}
+
+/* Estilo del párrafo */
+.welcome-message p {
+  font-size: 1.25rem;
+  color: #666; /* Un gris suave para el texto */
+  line-height: 1.6;
+  font-family: 'Roboto', sans-serif; /* Complementa con otra fuente moderna */
+  margin-bottom: 0;
+}
+
+/* Animación de entrada */
+.welcome-message {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Definición de la animación */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
