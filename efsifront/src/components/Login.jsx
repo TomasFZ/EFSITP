@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { useAuth } from './AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-function Login({ onLogin }) {
+function Login() {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      onLogin(storedUsername);
-    }
-  }, [onLogin]);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,23 +19,12 @@ function Login({ onLogin }) {
     setIsLoading(true);
     setMessage('');
 
-    try {
-      const response = await axios.post('http://localhost:3001/api/user/login', formData);
-      
-      if (response.data && response.data.includes('Token:')) {
-        const token = response.data.split('Token: ')[1];
-        localStorage.setItem('token', token);
-        localStorage.setItem('username', formData.username);
-        setMessage('Login exitoso');
-        onLogin(formData.username);
-      } else {
-        setMessage('Error en el login. Por favor, verifica tus credenciales.');
-      }
-    } catch (error) {
-      console.error('Error durante el login:', error);
-      setMessage(error.response?.data || 'Error en el login. Por favor, intenta de nuevo.');
-    } finally {
-      setIsLoading(false);
+    const result = await login(formData.username, formData.password);
+    setMessage(result.message);
+    setIsLoading(false);
+
+    if (result.success) {
+      navigate('/');
     }
   };
 

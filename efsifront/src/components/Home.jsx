@@ -1,10 +1,13 @@
 import React from 'react';
 import EventsList from './EventsList';
+import { useAuth } from './AuthContext';
 
-function Home({ username }) {
+function Home() {
+  const { user } = useAuth();
+
   return (
     <div className="home">
-      {username ? (
+      {user ? (
         <EventsList />
       ) : (
         <div className="welcome-container">

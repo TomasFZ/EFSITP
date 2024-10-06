@@ -1,13 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import eventosLogo2 from '../vendor/eventosLogo2.jpg'; // Importa la imagen
+import { useAuth } from './AuthContext';
+import eventosLogo2 from '../vendor/eventosLogo2.jpg';
 
-function Navbar({ user }) {
+function Navbar() {
+  const { user } = useAuth();
+
   return (
     <header>
       <nav className="navbar">
         <div className="logo">
-          <img alt="Logo" src={eventosLogo2} /> {/* Usa la imagen importada */}
+          <img alt="Logo" src={eventosLogo2} />
           <Link to="/">Eventos.com</Link>
         </div>
         <ul>

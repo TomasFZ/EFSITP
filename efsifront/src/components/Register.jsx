@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
-function Register({ onRegister }) {
+function Register() {
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -10,6 +11,8 @@ function Register({ onRegister }) {
   });
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { handleRegister } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,19 +24,15 @@ function Register({ onRegister }) {
     setIsLoading(true);
     setMessage('');
 
-    try {
-      const response = await axios.post('http://localhost:3001/api/user/register', formData);
-      if (response.data.includes('Error')) {
-        setMessage(response.data);
-      } else {
-        setMessage('Registro exitoso');
-        localStorage.setItem('username', formData.username);
-        onRegister(formData.username);
-      }
-    } catch (error) {
-      setMessage(error.response ? error.response.data : 'Error en el registro');
-    } finally {
-      setIsLoading(false);
+    // Usa la función handleRegister del contexto
+    const result = await handleRegister(formData);
+    setIsLoading(false);
+
+    if (result.success) {
+      setMessage('Registro exitoso');
+      navigate('/'); // Redirige al home después de registrar y autenticar
+    } else {
+      setMessage(result.message || 'Error en el registro.');
     }
   };
 
