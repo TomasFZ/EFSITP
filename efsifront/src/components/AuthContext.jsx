@@ -11,12 +11,15 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token'));
+  const [userId, setUserId] = useState(localStorage.getItem('userId')); // Almacena el userId
 
-  // Efecto para establecer el usuario si ya hay un token almacenado
+  // Efecto para establecer el usuario y el userId si ya hay un token almacenado
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
+    const storedUserId = localStorage.getItem('userId'); // Recuperar el userId
     if (storedUsername && token) {
       setUser(storedUsername);
+      setUserId(storedUserId); // Establecer el userId
     }
   }, [token]);
 
@@ -27,10 +30,14 @@ export const AuthProvider = ({ children }) => {
 
       if (response.data && response.data.includes('Token:')) {
         const newToken = response.data.split('Token: ')[1];
+        const newUserId = response.data.userId; // Asegúrate de que el userId esté en la respuesta
+
         setToken(newToken);
         setUser(username);
+        setUserId(newUserId); // Establecer el userId en el estado
         localStorage.setItem('token', newToken);
         localStorage.setItem('username', username);
+        localStorage.setItem('userId', newUserId); // Almacenar el userId
         return { success: true, message: 'Login exitoso' };
       } else {
         return { success: false, message: 'Error en el login. Por favor, verifica tus credenciales.' };
@@ -62,14 +69,17 @@ export const AuthProvider = ({ children }) => {
   // Función de logout
   const logout = () => {
     setUser(null);
+    setUserId(null); // Limpiar el userId
     setToken(null);
     localStorage.removeItem('username');
     localStorage.removeItem('token');
+    localStorage.removeItem('userId'); // Eliminar el userId
   };
 
   // Valor proporcionado por el contexto
   const value = {
     user,
+    userId, // Agregar userId al valor del contexto
     token,
     login,
     handleRegister,
