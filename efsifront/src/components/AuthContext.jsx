@@ -30,8 +30,9 @@ export const AuthProvider = ({ children }) => {
 
       if (response.data && response.data.includes('Token:')) {
         const newToken = response.data.split('Token: ')[1];
+        console.log("LA RESPONSE.DATA ES: " +response.data)
         const newUserId = response.data.userId; // Asegúrate de que el userId esté en la respuesta
-
+        console.log("NEW USER ID "+newUserId)
         setToken(newToken);
         setUser(username);
         setUserId(newUserId); // Establecer el userId en el estado
