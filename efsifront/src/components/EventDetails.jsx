@@ -37,6 +37,7 @@ function EventDetails() {
         },
       });
       const totalLocations = locationResponse.data.length;  
+      console.log("totalLocations: " + totalLocations)
       setLocations(prev => ({ ...prev, [eventDetails.id_event_location]: totalLocations }));
 
       // Fetch de event-enrollment para obtener los usuarios suscritos
@@ -46,12 +47,14 @@ function EventDetails() {
         },
       });
       const enrolledUsers = enrollmentResponse.data.collection.length;
+      console.log("enrolle dUsers: " + enrolledUsers)
+
       setEnrollments(prev => ({ ...prev, [eventDetails.id]: enrolledUsers }));
 
       // Verificar si hay espacios disponibles
       if (enrolledUsers > totalLocations) { // Cambiar a < después NO OLVIDARSE
         const subscribeResponse = await axios.post(`http://localhost:3001/api/event/${eventDetails.event_id}/enrollment`, {
-          userId: userId, // Obtener el userId del contexto
+          userId: userId, // Obtener el userId del contexto. Anda mal. O cambiar back para que tambien mande userId y no solo token o buscar otra forma. 
         }, {
           headers: {
             Authorization: `Bearer ${token}`,
