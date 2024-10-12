@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from './AuthContext'; // Asegúrate de la ruta correcta
+import { useAuth } from './AuthContext'; 
 
 function EventDetails() {
   const { id } = useParams(); // Obtener el ID del evento desde la URL
@@ -52,9 +52,9 @@ function EventDetails() {
       setEnrollments(prev => ({ ...prev, [eventDetails.id]: enrolledUsers }));
 
       // Verificar si hay espacios disponibles
-      if (enrolledUsers > totalLocations) { // Cambiar a < después NO OLVIDARSE
+      if (enrolledUsers > totalLocations) { // Cambiar a < después NO OLVIDARSEEEEEEEEEEEEEEEEEEE. 
         const subscribeResponse = await axios.post(`http://localhost:3001/api/event/${eventDetails.event_id}/enrollment`, {
-          userId: userId, // Obtener el userId del contexto. Anda mal. O cambiar back para que tambien mande userId y no solo token o buscar otra forma. 
+          userId: userId, // Obtener el userId. Anda mal. O cambiar back para que tambien mande userId y no solo token o buscar otra forma. 
         }, {
           headers: {
             Authorization: `Bearer ${token}`,
