@@ -318,6 +318,45 @@ p {
   background-color: #e9ecef;
   cursor: pointer;
 }
+/* Estilos generales */
+.events-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Estilos para la lista de eventos */
+.events-list {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.events-list h2 {
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+}
+
+.events-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.events-list li {
+  background-color: #f8f9fa;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.events-list li:hover {
+  background-color: #e9ecef;
+  cursor: pointer;
+}
 
 /* Estilos para el formulario de creación de eventos */
 .create-event-form {
@@ -375,6 +414,17 @@ p {
 
 .create-event-form button:hover {
   background-color: #0056b3;
+}
+
+/* Ocultar flechas de inputs numéricos */
+.no-spinner::-webkit-inner-spin-button, 
+.no-spinner::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.no-spinner {
+  -moz-appearance: textfield;
 }
 
 /* Responsive design */
