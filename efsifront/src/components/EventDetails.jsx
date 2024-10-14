@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from './AuthContext'; 
+import { useAuth } from './AuthContext';
 
 function EventDetails() {
   const { id } = useParams(); // Obtener el ID del evento desde la URL
@@ -28,7 +28,7 @@ function EventDetails() {
     fetchEventDetails();
   }, [id, token]);
 
-  const handleSubscribe = async (eventDetails) => {
+  const handleSubscribe = async () => {
     try {
       // Fetch de event-location para obtener el número de locations disponibles
       const locationResponse = await axios.get(`http://localhost:3001/api/event-location/${eventDetails.id_event_location}`, {
@@ -37,9 +37,9 @@ function EventDetails() {
         },
       });
       const totalLocations = locationResponse.data.length;  
-      console.log("totalLocations: " + totalLocations)
+      console.log("totalLocations: " + totalLocations);
       setLocations(prev => ({ ...prev, [eventDetails.id_event_location]: totalLocations }));
-
+        console.log("el userId del handlesubscribe: " + userId)
       // Fetch de event-enrollment para obtener los usuarios suscritos
       const enrollmentResponse = await axios.get(`http://localhost:3001/api/event/${eventDetails.event_id}/enrollment`, {
         headers: {
@@ -47,14 +47,13 @@ function EventDetails() {
         },
       });
       const enrolledUsers = enrollmentResponse.data.collection.length;
-      console.log("enrolle dUsers: " + enrolledUsers)
-
+      console.log("enrolledUsers: " + enrolledUsers);
       setEnrollments(prev => ({ ...prev, [eventDetails.id]: enrolledUsers }));
-
+        console.log("el userId del handlesubscribe: " + userId)
       // Verificar si hay espacios disponibles
-      if (enrolledUsers > totalLocations) { // Cambiar a < después NO OLVIDARSEEEEEEEEEEEEEEEEEEE. 
+      if (enrolledUsers > totalLocations) { // Asegúrate de usar < para permitir la suscripción
         const subscribeResponse = await axios.post(`http://localhost:3001/api/event/${eventDetails.event_id}/enrollment`, {
-          userId: userId, // Obtener el userId. Anda mal. O cambiar back para que tambien mande userId y no solo token o buscar otra forma. 
+          userId: userId, // Obtener el userId desde el authContext
         }, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -66,8 +65,8 @@ function EventDetails() {
       }
     } catch (error) {
       console.error('Error during subscription process:', error);
-      console.log("user id: " + userId) //no lo agarra...
-      console.log("token: " + token)
+      console.log("user id: " + userId);
+      console.log("token: " + token);
     }
   };
 
@@ -80,22 +79,19 @@ function EventDetails() {
       <h2>Detalles del Evento: {eventDetails.name}</h2>
       <p>Descripción: {eventDetails.description}</p>
       <p>Fecha: {eventDetails.date}</p>
-      {/* Recorrer los detalles del evento */}
       <ul>
         {Object.entries(eventDetails).map(([key, value]) => (
           <li key={key}>
             <strong>{key}:</strong> 
             {typeof value === 'object' && value !== null ? (
-              <pre>{JSON.stringify(value, null, 2)}</pre> // Mostrar objetos como JSON formateado
+              <pre>{JSON.stringify(value, null, 2)}</pre>
             ) : (
               value
             )}
           </li>
         ))}
       </ul>
-
-      {/* Botón para suscribirse al evento */}
-      <button onClick={() => handleSubscribe(eventDetails)}>Suscribirse</button>
+      <button onClick={handleSubscribe}>Suscribirse</button>
     </div>
   );
 }

@@ -16,10 +16,10 @@ export const AuthProvider = ({ children }) => {
   // Efecto para establecer el usuario y el userId si ya hay un token almacenado
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
-    const storedUserId = localStorage.getItem('userId'); // Recuperar el userId
+    const storedUserId = localStorage.getItem('userId');
     if (storedUsername && token) {
       setUser(storedUsername);
-      setUserId(storedUserId); // Establecer el userId
+      setUserId(storedUserId);
     }
   }, [token]);
 
@@ -27,18 +27,19 @@ export const AuthProvider = ({ children }) => {
   const login = async (username, password) => {
     try {
       const response = await axios.post('http://localhost:3001/api/user/login', { username, password });
+      const userIdResponse = await axios.get(`http://localhost:3001/api/user/getUserID`, { params: { username } });
+      //const userId = userIdResponse.data; // Asegúrate de que aquí obtienes el userId correctamente
+      //console.log("Mi respuesta: " + userId)
 
       if (response.data && response.data.includes('Token:')) {
         const newToken = response.data.split('Token: ')[1];
-        console.log("LA RESPONSE.DATA ES: " +response.data)
-        const newUserId = response.data.userId; // Asegúrate de que el userId esté en la respuesta
-        console.log("NEW USER ID "+newUserId)
+        const userId1 = userIdResponse.data.split("userId: ")[1];
         setToken(newToken);
         setUser(username);
-        setUserId(newUserId); // Establecer el userId en el estado
+        setUserId(userId1); // Establecer el userId en el estado
         localStorage.setItem('token', newToken);
         localStorage.setItem('username', username);
-        localStorage.setItem('userId', newUserId); // Almacenar el userId
+        localStorage.setItem('userId', userId); // Almacenar el userId
         return { success: true, message: 'Login exitoso' };
       } else {
         return { success: false, message: 'Error en el login. Por favor, verifica tus credenciales.' };
@@ -49,13 +50,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Función de registro, que llama al login tras el registro exitoso
+  // Función de registro
   const handleRegister = async (formData) => {
     try {
       const response = await axios.post('http://localhost:3001/api/user/register', formData);
-
       if (response.status === 201) {
-        // Registro exitoso, iniciamos sesión automáticamente
         await login(formData.username, formData.password);
         return { success: true, message: 'Registro exitoso' };
       } else {
@@ -70,11 +69,11 @@ export const AuthProvider = ({ children }) => {
   // Función de logout
   const logout = () => {
     setUser(null);
-    setUserId(null); // Limpiar el userId
+    setUserId(null);
     setToken(null);
     localStorage.removeItem('username');
     localStorage.removeItem('token');
-    localStorage.removeItem('userId'); // Eliminar el userId
+    localStorage.removeItem('userId');
   };
 
   // Valor proporcionado por el contexto
@@ -84,7 +83,7 @@ export const AuthProvider = ({ children }) => {
     token,
     login,
     handleRegister,
-    logout
+    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
