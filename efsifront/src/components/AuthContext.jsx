@@ -34,12 +34,12 @@ export const AuthProvider = ({ children }) => {
       if (response.data && response.data.includes('Token:')) {
         const newToken = response.data.split('Token: ')[1];
         const userId1 = userIdResponse.data.split("userId: ")[1];
-        setToken(newToken);
+        setToken(newToken); //medio redundante estos setStates...
         setUser(username);
         setUserId(userId1); // Establecer el userId en el estado
         localStorage.setItem('token', newToken);
         localStorage.setItem('username', username);
-        localStorage.setItem('userId', userId); // Almacenar el userId
+        localStorage.setItem('userId', userId1); // Almacena el userId
         return { success: true, message: 'Login exitoso' };
       } else {
         return { success: false, message: 'Error en el login. Por favor, verifica tus credenciales.' };

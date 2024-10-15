@@ -7,6 +7,8 @@ function EventDetails() {
   const { id } = useParams(); // Obtener el ID del evento desde la URL
   const [eventDetails, setEventDetails] = useState(null);
   const { token, userId } = useAuth(); // Usar el hook useAuth para obtener token y userId
+  console.log("Token AUTH:", token);
+  console.log("UserId AUTH:", userId);
   const [locations, setLocations] = useState({});
   const [enrollments, setEnrollments] = useState({});
 
@@ -47,13 +49,13 @@ function EventDetails() {
         },
       });
       const enrolledUsers = enrollmentResponse.data.collection.length;
-      console.log("enrolledUsers: " + enrolledUsers);
+      console.log("enrolledUsers: " + enrolledUsers + " y totalLocations: " + totalLocations);
       setEnrollments(prev => ({ ...prev, [eventDetails.id]: enrolledUsers }));
-        console.log("el userId del handlesubscribe: " + userId)
+      console.log("eventDetails.event_id: " + eventDetails.event_id) //funciona pero entonces cual es el error
       // Verificar si hay espacios disponibles
-      if (enrolledUsers > totalLocations) { // Asegúrate de usar < para permitir la suscripción
+      if (enrolledUsers <= totalLocations) { // Asegúrate de usar < para permitir la suscripción
         const subscribeResponse = await axios.post(`http://localhost:3001/api/event/${eventDetails.event_id}/enrollment`, {
-          userId: userId, // Obtener el userId desde el authContext
+          userId: userId, // consigue el userId desde el authContext
         }, {
           headers: {
             Authorization: `Bearer ${token}`,
