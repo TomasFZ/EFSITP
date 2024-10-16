@@ -119,6 +119,7 @@ function EventsList() {
 
   useEffect(() => {
     fetchEvents();
+    // eslint-disable-next-line
   }, [token]);
 
   const handleEventClick = (event) => {

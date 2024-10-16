@@ -99,7 +99,7 @@ body {
 
 .registration-form input,
 .login-form input {
-  width: 100%;
+  width: 93%;
   padding: 0.75rem;
   margin-bottom: 1rem;
   border: 1px solid #ccc;
@@ -439,3 +439,4 @@ p {
     margin-bottom: 20px;
   }
 }
+

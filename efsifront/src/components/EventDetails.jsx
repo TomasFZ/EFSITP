@@ -6,10 +6,13 @@ import { useAuth } from './AuthContext';
 function EventDetails() {
   const { id } = useParams(); // Obtener el ID del evento desde la URL
   const [eventDetails, setEventDetails] = useState(null);
-  const { token, userId } = useAuth(); // Usar el hook useAuth para obtener token y userId
+  // eslint-disable-next-line
+  const { token, userId, user } = useAuth(); // Usar el hook useAuth para obtener token y userId
   console.log("Token AUTH:", token);
   console.log("UserId AUTH:", userId);
+  // eslint-disable-next-line
   const [locations, setLocations] = useState({});
+  // eslint-disable-next-line
   const [enrollments, setEnrollments] = useState({});
 
   useEffect(() => {
@@ -39,23 +42,31 @@ function EventDetails() {
         },
       });
       const totalLocations = locationResponse.data.length;  
-      console.log("totalLocations: " + totalLocations);
       setLocations(prev => ({ ...prev, [eventDetails.id_event_location]: totalLocations }));
-        console.log("el userId del handlesubscribe: " + userId)
+  
       // Fetch de event-enrollment para obtener los usuarios suscritos
       const enrollmentResponse = await axios.get(`http://localhost:3001/api/event/${eventDetails.event_id}/enrollment`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+  
+      // Verificar si el usuario ya está inscrito
+      // eslint-disable-next-line
+      const isAlreadyEnrolled = enrollmentResponse.data.collection.some(user => user.username === user.username);
+      
+      if (isAlreadyEnrolled) {
+        alert('Ya estás suscrito a este evento.');
+        return; // Detener el proceso si ya está inscrito
+      }
+  
       const enrolledUsers = enrollmentResponse.data.collection.length;
-      console.log("enrolledUsers: " + enrolledUsers + " y totalLocations: " + totalLocations);
-      setEnrollments(prev => ({ ...prev, [eventDetails.id]: enrolledUsers }));
-      console.log("eventDetails.event_id: " + eventDetails.event_id) //funciona pero entonces cual es el error
+      
       // Verificar si hay espacios disponibles
-      if (enrolledUsers <= totalLocations) { // Asegúrate de usar < para permitir la suscripción
+      if (enrolledUsers < totalLocations) { // Usar < para permitir la suscripción
+        // eslint-disable-next-line
         const subscribeResponse = await axios.post(`http://localhost:3001/api/event/${eventDetails.event_id}/enrollment`, {
-          userId: userId, // consigue el userId desde el authContext
+          userId: userId, // Consigue el userId desde el authContext
         }, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -66,9 +77,7 @@ function EventDetails() {
         alert('No hay más cupos disponibles para este evento.');
       }
     } catch (error) {
-      console.error('Error during subscription process:', error);
-      console.log("user id: " + userId);
-      console.log("token: " + token);
+      console.error('Error durante el proceso de suscripción:', error);
     }
   };
 
@@ -79,8 +88,9 @@ function EventDetails() {
   return (
     <div>
       <h2>Detalles del Evento: {eventDetails.name}</h2>
-      <p>Descripción: {eventDetails.description}</p>
-      <p>Fecha: {eventDetails.date}</p>
+      <p>Descripción: {eventDetails.event_description}</p>
+      <p>Fecha: {eventDetails.start_date}</p>
+      {console.log(eventDetails)}
       <ul>
         {Object.entries(eventDetails).map(([key, value]) => (
           <li key={key}>
