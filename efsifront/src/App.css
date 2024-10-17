@@ -440,3 +440,18 @@ p {
   }
 }
 
+.detailsEvent h1{
+  text-align: center;
+}
+
+.detailsEvent h2{
+  padding-left: 1rem;
+  padding-bottom: .7rem;
+}
+
+.detailsEvent p{
+  text-align: left;
+  font-size: 20px;
+  padding-top: .5rem;
+  padding-left: 2rem;
+}

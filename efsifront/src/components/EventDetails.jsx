@@ -86,24 +86,16 @@ function EventDetails() {
   }
 
   return (
-    <div>
-      <h2>Detalles del Evento: {eventDetails.name}</h2>
+    <div className='detailsEvent'>
+      <h1>{eventDetails.event_name}</h1>
+      <h2>Detalles del Evento:</h2>
       <p>Descripción: {eventDetails.event_description}</p>
-      <p>Fecha: {eventDetails.start_date}</p>
-      {console.log(eventDetails)}
-      <ul>
-        {Object.entries(eventDetails).map(([key, value]) => (
-          <li key={key}>
-            <strong>{key}:</strong> 
-            {typeof value === 'object' && value !== null ? (
-              <pre>{JSON.stringify(value, null, 2)}</pre>
-            ) : (
-              value
-            )}
-          </li>
-        ))}
-      </ul>
-      <button onClick={handleSubscribe}>Suscribirse</button>
+      <p>Fecha de inico: {eventDetails.start_date}</p>
+      <p>Duración del evento: {eventDetails.duration_in_minutes} Min.</p>
+      <p>Asistencia máxima: {eventDetails.max_assistance}</p>
+      <p>Dirección: {eventDetails.event_location_full_address}</p>
+      <p>Categoría: {eventDetails.event_category_name}</p>
+      <button className='create-event-form' style={{padding: "20px 40px", display: "block", margin: "auto", marginTop: "10rem"}} onClick={handleSubscribe}>Suscribirse</button>
     </div>
   );
 }
