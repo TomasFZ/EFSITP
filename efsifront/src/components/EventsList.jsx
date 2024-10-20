@@ -17,7 +17,7 @@ function EventsList() {
     max_assistance: ""
   });
   const token = localStorage.getItem('token');
-  const userId = localStorage.getItem('userId'); //cambiar a que usen AuthContext. 
+  const userId = localStorage.getItem('userId'); //podria cambiar a que usen AuthContext. 
   const navigate = useNavigate();
 
   const fetchEvents = async () => {
@@ -38,7 +38,7 @@ function EventsList() {
   }, [token]);
 
   const handleEventClick = (event) => {
-    navigate(`/event/${event.id}`, { state: { eventDetails: event } });
+    navigate(`/event/${event.id}`);
   };
 
   const handleInputChange = (e) => {
@@ -52,7 +52,7 @@ function EventsList() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const eventData = {
+      const eventData = { //hago uno nuevo pq si le paso directo newEvent no funciona
         ...newEvent,
         id_creator_user: parseInt(userId),
         id_event_category: parseInt(newEvent.id_event_category),
@@ -66,14 +66,11 @@ function EventsList() {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-
-      console.log('Event created:', response.data);
-      
+      });      
       // Fetch pq sino no aparece el recien creado hasta despues de recargar la pagina
       await fetchEvents();
       
-      setNewEvent({
+      setNewEvent({//seteo en 0 al event
         name: "",
         description: "",
         id_event_category: "",
