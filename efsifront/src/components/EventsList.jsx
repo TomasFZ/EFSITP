@@ -117,6 +117,14 @@ function EventsList() {
           <button type="submit">Crear Evento</button>
         </form>
       </div>
+
+      <div style={{marginLeft: "1.2rem"}} className="create-event-form">
+        <h2>Otras Herramientas</h2>
+        <form>
+          <button onClick={() => navigate('/categories')} type="submit">Administrar Categorías</button>
+          <button style={{marginTop: ".5rem"}} onClick={() => navigate('/locations')} type="submit">Administrar Ubicaciones</button>
+        </form>
+      </div>
     </div>
   );
 }

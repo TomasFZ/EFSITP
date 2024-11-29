@@ -9,7 +9,8 @@ import { AuthProvider, useAuth } from './components/AuthContext';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import EventsList from './components/EventsList'; // Importar la lista de eventos
 import EventDetails from './components/EventDetails'; // Importar el componente de detalles del evento
-
+import EventCategories from './components/EventCategories';
+import EventLocations from './components/EventLocations';
 
 function AppContent() {
   const { user } = useAuth();
@@ -26,6 +27,8 @@ function AppContent() {
           <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
           <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/categories" element={<EventCategories />} />
+          <Route path="/locations" element={<EventLocations />} />
           <Route path="/" element={<Home />} />
 
           {/* Rutas para los eventos */}
