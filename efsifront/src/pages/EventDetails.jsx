@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../utils/AuthContext';
 
 function EventDetails() {
   const { id } = useParams(); // saca el ID del evento desde la url

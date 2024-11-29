@@ -1,16 +1,16 @@
 import './App.css';
 import Navbar from './components/navbar';
-import Register from './components/Register';
-import Login from './components/Login';
-import Logout from './components/Logout';
-import Home from './components/Home';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import Logout from './pages/Logout';
+import Home from './pages/Home';
 import Footer from './components/Footer';
-import { AuthProvider, useAuth } from './components/AuthContext';
+import { AuthProvider, useAuth } from './utils/AuthContext';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import EventsList from './components/EventsList'; // Importar la lista de eventos
-import EventDetails from './components/EventDetails'; // Importar el componente de detalles del evento
-import EventCategories from './components/EventCategories';
-import EventLocations from './components/EventLocations';
+import EventsList from './pages/EventsList'; // Importar la lista de eventos
+import EventDetails from './pages/EventDetails'; // Importar el componente de detalles del evento
+import EventCategories from './pages/EventCategories';
+import EventLocations from './pages/EventLocations';
 
 function AppContent() {
   const { user } = useAuth();

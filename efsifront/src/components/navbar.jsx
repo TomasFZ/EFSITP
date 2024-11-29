@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../utils/AuthContext';
 import eventosLogo2 from '../vendor/eventosLogo2.jpg';
 
 function Navbar() {

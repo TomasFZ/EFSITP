@@ -1,6 +1,6 @@
 import React from 'react';
 import EventsList from './EventsList';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../utils/AuthContext';
 
 function Home() {
   const { user } = useAuth();
